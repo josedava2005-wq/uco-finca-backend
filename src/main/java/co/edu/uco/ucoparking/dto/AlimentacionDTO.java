@@ -25,10 +25,17 @@ public final class AlimentacionDTO {
     }
 
     public UUID getId() { return id; }
+    public void setId(final UUID id) { this.id = id; }
     public String getFechaHora() { return fechaHora; }
+    public void setFechaHora(final String fechaHora) { this.fechaHora = fechaHora; }
     public Double getCantidad() { return cantidad; }
+    public void setCantidad(final Double cantidad) { this.cantidad = cantidad; }
     public String getUnidadMedida() { return unidadMedida; }
+    public void setUnidadMedida(final String unidadMedida) { this.unidadMedida = unidadMedida; }
     public String getTipoAlimento() { return tipoAlimento; }
+    public void setTipoAlimento(final String tipoAlimento) { this.tipoAlimento = tipoAlimento; }
     public UUID getIdAnimal() { return idAnimal; }
+    public void setIdAnimal(final UUID idAnimal) { this.idAnimal = idAnimal; }
     public UUID getIdEmpleado() { return idEmpleado; }
+    public void setIdEmpleado(final UUID idEmpleado) { this.idEmpleado = idEmpleado; }
 }

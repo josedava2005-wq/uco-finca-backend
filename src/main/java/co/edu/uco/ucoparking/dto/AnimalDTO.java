@@ -27,11 +27,19 @@ public final class AnimalDTO {
     }
 
     public UUID getId() { return id; }
+    public void setId(final UUID id) { this.id = id; }
     public String getNombre() { return nombre; }
+    public void setNombre(final String nombre) { this.nombre = nombre; }
     public String getEspecie() { return especie; }
+    public void setEspecie(final String especie) { this.especie = especie; }
     public String getRaza() { return raza; }
+    public void setRaza(final String raza) { this.raza = raza; }
     public String getSexo() { return sexo; }
+    public void setSexo(final String sexo) { this.sexo = sexo; }
     public String getFechaNacimiento() { return fechaNacimiento; }
+    public void setFechaNacimiento(final String fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
     public Double getPesoKg() { return pesoKg; }
+    public void setPesoKg(final Double pesoKg) { this.pesoKg = pesoKg; }
     public UUID getIdFinca() { return idFinca; }
+    public void setIdFinca(final UUID idFinca) { this.idFinca = idFinca; }
 }

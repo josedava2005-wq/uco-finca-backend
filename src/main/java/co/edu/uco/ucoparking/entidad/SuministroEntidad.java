@@ -1,24 +1,65 @@
 package co.edu.uco.ucoparking.entidad;
 
 import java.util.UUID;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
-import co.edu.uco.ucoparking.entidad.AlmacenEntidad;
-import co.edu.uco.ucoparking.entidad.ProveedorEntidad;
-import co.edu.uco.ucoparking.entidad.TipoSuministroEntidad;
-
+/**
+ * Entidad JPA — tabla "suministro" en SQL Server.
+ *
+ * RELACIONES FK:
+ *   id_tipo_suministro → tipo_suministro.id  (TipoSuministroEntidad ya es @Entity ✅)
+ *   id_almacen         → almacen.id           (AlmacenEntidad ya es @Entity ✅)
+ *   id_proveedor       → proveedor.id         (ProveedorEntidad ya es @Entity ✅)
+ *
+ * COLUMNAS:
+ *   id                 → uniqueidentifier
+ *   nombre             → varchar
+ *   cantidad           → float
+ *   unidad_medida      → varchar
+ *   id_tipo_suministro → uniqueidentifier FK
+ *   id_almacen         → uniqueidentifier FK
+ *   id_proveedor       → uniqueidentifier FK
+ */
+@Entity
+@Table(name = "suministro")
 public class SuministroEntidad {
 
+    @Id
+    @Column(name = "id", columnDefinition = "uniqueidentifier", updatable = false, nullable = false)
     private UUID id;
+
+    @Column(name = "nombre", nullable = false, length = 200)
     private String nombre;
+
+    @Column(name = "cantidad", nullable = true)
     private Double cantidad;
+
+    @Column(name = "unidad_medida", nullable = true, length = 50)
     private String unidadMedida;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_tipo_suministro", nullable = false)
     private TipoSuministroEntidad tipoSuministro;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_almacen", nullable = false)
     private AlmacenEntidad almacen;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_proveedor", nullable = false)
     private ProveedorEntidad proveedor;
 
     public SuministroEntidad() {}
 
-    public SuministroEntidad(final UUID id, final String nombre, final Double cantidad, final String unidadMedida, final TipoSuministroEntidad tipoSuministro, final AlmacenEntidad almacen, final ProveedorEntidad proveedor) {
+    public SuministroEntidad(final UUID id, final String nombre, final Double cantidad,
+                             final String unidadMedida, final TipoSuministroEntidad tipoSuministro,
+                             final AlmacenEntidad almacen, final ProveedorEntidad proveedor) {
         this.id = id;
         this.nombre = nombre;
         this.cantidad = cantidad;

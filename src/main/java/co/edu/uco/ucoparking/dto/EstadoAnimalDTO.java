@@ -21,8 +21,13 @@ public final class EstadoAnimalDTO {
     }
 
     public UUID getId() { return id; }
+    public void setId(final UUID id) { this.id = id; }
     public String getEstado() { return estado; }
+    public void setEstado(final String estado) { this.estado = estado; }
     public String getFechaRegistro() { return fechaRegistro; }
+    public void setFechaRegistro(final String fechaRegistro) { this.fechaRegistro = fechaRegistro; }
     public String getObservacion() { return observacion; }
+    public void setObservacion(final String observacion) { this.observacion = observacion; }
     public UUID getIdAnimal() { return idAnimal; }
+    public void setIdAnimal(final UUID idAnimal) { this.idAnimal = idAnimal; }
 }

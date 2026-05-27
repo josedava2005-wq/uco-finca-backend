@@ -19,7 +19,11 @@ public final class DepartamentoDTO {
     }
 
     public UUID getId() { return id; }
+    public void setId(final UUID id) { this.id = id; }
     public String getNombre() { return nombre; }
+    public void setNombre(final String nombre) { this.nombre = nombre; }
     public String getCodigoDANE() { return codigoDANE; }
+    public void setCodigoDANE(final String codigoDANE) { this.codigoDANE = codigoDANE; }
     public UUID getIdPais() { return idPais; }
+    public void setIdPais(final UUID idPais) { this.idPais = idPais; }
 }

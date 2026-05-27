@@ -8,6 +8,7 @@ import co.edu.uco.ucoparking.dominio.RecoleccionDominio;
 import co.edu.uco.ucoparking.negocio.assembler.entidad.RecoleccionEntidadAssembler;
 import co.edu.uco.ucoparking.negocio.casosuso.RecoleccionCasoDeUso;
 import co.edu.uco.ucoparking.transversal.UtilUUID;
+import co.edu.uco.ucoparking.transversal.excepciones.NegocioException;
 
 public final class RecoleccionCasoDeUsoImpl implements RecoleccionCasoDeUso {
 
@@ -19,6 +20,7 @@ public final class RecoleccionCasoDeUsoImpl implements RecoleccionCasoDeUso {
 
     @Override
     public void crear(final RecoleccionDominio dominio) {
+        validarCamposObligatorios(dominio);
         final RecoleccionDominio dominioConId = RecoleccionDominio.builder()
                 .id(UtilUUID.generarNuevo())
                 .fechaHora(dominio.getFechaHora())
@@ -41,11 +43,40 @@ public final class RecoleccionCasoDeUsoImpl implements RecoleccionCasoDeUso {
 
     @Override
     public void modificar(final RecoleccionDominio dominio) {
+        if (dominio.getId() == null) {
+            throw new NegocioException(
+                    "RecoleccionCasoDeUsoImpl.modificar: el id de la recoleccion es obligatorio.",
+                    "El id de la recoleccion es obligatorio para modificar.");
+        }
+        validarCamposObligatorios(dominio);
         datos.modificar(RecoleccionEntidadAssembler.toEntidad(dominio));
     }
 
     @Override
     public void eliminar(final UUID id) {
+        if (id == null) {
+            throw new NegocioException(
+                    "RecoleccionCasoDeUsoImpl.eliminar: el id de la recoleccion es obligatorio.",
+                    "El id de la recoleccion es obligatorio para eliminar.");
+        }
         datos.eliminar(id);
+    }
+
+    private void validarCamposObligatorios(final RecoleccionDominio dominio) {
+        if (dominio.getProducto() == null || dominio.getProducto().getId() == null) {
+            throw new NegocioException(
+                    "RecoleccionCasoDeUsoImpl: el producto de la recoleccion es obligatorio.",
+                    "El producto de la recoleccion es obligatorio.");
+        }
+        if (dominio.getAnimal() == null || dominio.getAnimal().getId() == null) {
+            throw new NegocioException(
+                    "RecoleccionCasoDeUsoImpl: el animal de la recoleccion es obligatorio.",
+                    "El animal de la recoleccion es obligatorio.");
+        }
+        if (dominio.getEmpleado() == null || dominio.getEmpleado().getId() == null) {
+            throw new NegocioException(
+                    "RecoleccionCasoDeUsoImpl: el empleado responsable de la recoleccion es obligatorio.",
+                    "El empleado responsable de la recoleccion es obligatorio.");
+        }
     }
 }

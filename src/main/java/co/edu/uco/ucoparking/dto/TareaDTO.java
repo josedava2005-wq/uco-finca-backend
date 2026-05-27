@@ -23,9 +23,15 @@ public final class TareaDTO {
     }
 
     public UUID getId() { return id; }
+    public void setId(final UUID id) { this.id = id; }
     public String getDescripcion() { return descripcion; }
+    public void setDescripcion(final String descripcion) { this.descripcion = descripcion; }
     public String getFechaHora() { return fechaHora; }
+    public void setFechaHora(final String fechaHora) { this.fechaHora = fechaHora; }
     public String getEstado() { return estado; }
+    public void setEstado(final String estado) { this.estado = estado; }
     public UUID getIdEmpleado() { return idEmpleado; }
+    public void setIdEmpleado(final UUID idEmpleado) { this.idEmpleado = idEmpleado; }
     public UUID getIdFinca() { return idFinca; }
+    public void setIdFinca(final UUID idFinca) { this.idFinca = idFinca; }
 }

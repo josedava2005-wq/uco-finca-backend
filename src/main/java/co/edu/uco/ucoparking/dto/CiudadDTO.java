@@ -17,6 +17,9 @@ public final class CiudadDTO {
     }
 
     public UUID getId() { return id; }
+    public void setId(final UUID id) { this.id = id; }
     public String getNombre() { return nombre; }
+    public void setNombre(final String nombre) { this.nombre = nombre; }
     public UUID getIdDepartamento() { return idDepartamento; }
+    public void setIdDepartamento(final UUID idDepartamento) { this.idDepartamento = idDepartamento; }
 }

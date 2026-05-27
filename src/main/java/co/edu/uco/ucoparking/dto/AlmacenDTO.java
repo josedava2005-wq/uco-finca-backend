@@ -21,8 +21,13 @@ public final class AlmacenDTO {
     }
 
     public UUID getId() { return id; }
+    public void setId(final UUID id) { this.id = id; }
     public String getNombre() { return nombre; }
+    public void setNombre(final String nombre) { this.nombre = nombre; }
     public Double getCapacidadM2() { return capacidadM2; }
+    public void setCapacidadM2(final Double capacidadM2) { this.capacidadM2 = capacidadM2; }
     public UUID getIdTipoAlmacen() { return idTipoAlmacen; }
+    public void setIdTipoAlmacen(final UUID idTipoAlmacen) { this.idTipoAlmacen = idTipoAlmacen; }
     public UUID getIdFinca() { return idFinca; }
+    public void setIdFinca(final UUID idFinca) { this.idFinca = idFinca; }
 }

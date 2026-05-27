@@ -25,10 +25,17 @@ public final class ProductoDTO {
     }
 
     public UUID getId() { return id; }
+    public void setId(final UUID id) { this.id = id; }
     public String getNombre() { return nombre; }
+    public void setNombre(final String nombre) { this.nombre = nombre; }
     public String getUnidadMedida() { return unidadMedida; }
+    public void setUnidadMedida(final String unidadMedida) { this.unidadMedida = unidadMedida; }
     public Double getPrecioUnitario() { return precioUnitario; }
+    public void setPrecioUnitario(final Double precioUnitario) { this.precioUnitario = precioUnitario; }
     public Double getStockDisponible() { return stockDisponible; }
+    public void setStockDisponible(final Double stockDisponible) { this.stockDisponible = stockDisponible; }
     public String getDescripcion() { return descripcion; }
+    public void setDescripcion(final String descripcion) { this.descripcion = descripcion; }
     public UUID getIdFinca() { return idFinca; }
+    public void setIdFinca(final UUID idFinca) { this.idFinca = idFinca; }
 }

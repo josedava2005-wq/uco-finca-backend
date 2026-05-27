@@ -25,10 +25,17 @@ public final class SuministroDTO {
     }
 
     public UUID getId() { return id; }
+    public void setId(final UUID id) { this.id = id; }
     public String getNombre() { return nombre; }
+    public void setNombre(final String nombre) { this.nombre = nombre; }
     public Double getCantidad() { return cantidad; }
+    public void setCantidad(final Double cantidad) { this.cantidad = cantidad; }
     public String getUnidadMedida() { return unidadMedida; }
+    public void setUnidadMedida(final String unidadMedida) { this.unidadMedida = unidadMedida; }
     public UUID getIdTipoSuministro() { return idTipoSuministro; }
+    public void setIdTipoSuministro(final UUID idTipoSuministro) { this.idTipoSuministro = idTipoSuministro; }
     public UUID getIdAlmacen() { return idAlmacen; }
+    public void setIdAlmacen(final UUID idAlmacen) { this.idAlmacen = idAlmacen; }
     public UUID getIdProveedor() { return idProveedor; }
+    public void setIdProveedor(final UUID idProveedor) { this.idProveedor = idProveedor; }
 }

@@ -1,40 +1,64 @@
 package co.edu.uco.ucoparking.datos.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import co.edu.uco.ucoparking.datos.EmpleadoDatos;
+import co.edu.uco.ucoparking.datos.jpa.EmpleadoJpaRepository;
+import co.edu.uco.ucoparking.datos.jpa.FincaJpaRepository;
 import co.edu.uco.ucoparking.entidad.EmpleadoEntidad;
 
+/**
+ * Implementación de EmpleadoDatos usando JPA / SQL Server.
+ *
+ * FIX FK (crear/modificar):
+ *   Usa FincaJpaRepository.getReferenceById() para obtener un proxy JPA gestionado.
+ *
+ * RELACIÓN (todo EAGER):
+ *   Empleado → Finca → LugarFinca → Ciudad → Departamento → País
+ */
 @Repository
 public class EmpleadoDatosImpl implements EmpleadoDatos {
 
-    private static final List<EmpleadoEntidad> almacen = new ArrayList<>();
+    private final EmpleadoJpaRepository jpaRepository;
+    private final FincaJpaRepository fincaJpaRepository;
+
+    public EmpleadoDatosImpl(
+            final EmpleadoJpaRepository jpaRepository,
+            final FincaJpaRepository fincaJpaRepository) {
+        this.jpaRepository = jpaRepository;
+        this.fincaJpaRepository = fincaJpaRepository;
+    }
 
     @Override
+    @Transactional
     public void crear(final EmpleadoEntidad entidad) {
-        almacen.add(entidad);
+        resolverFKs(entidad);
+        jpaRepository.save(entidad);
     }
 
     @Override
     public List<EmpleadoEntidad> consultar(final EmpleadoEntidad filtro) {
-        return new ArrayList<>(almacen);
+        return jpaRepository.findAll();
     }
 
     @Override
+    @Transactional
     public void modificar(final EmpleadoEntidad entidad) {
-        for (int i = 0; i < almacen.size(); i++) {
-            if (almacen.get(i).getId() != null
-                    && almacen.get(i).getId().equals(entidad.getId())) {
-                almacen.set(i, entidad);
-                return;
-            }
-        }
+        resolverFKs(entidad);
+        jpaRepository.save(entidad);
     }
 
     @Override
+    @Transactional
     public void eliminar(final UUID id) {
-        almacen.removeIf(e -> e.getId() != null && e.getId().equals(id));
+        jpaRepository.deleteById(id);
+    }
+
+    private void resolverFKs(final EmpleadoEntidad entidad) {
+        if (entidad.getFinca() != null && entidad.getFinca().getId() != null) {
+            entidad.setFinca(fincaJpaRepository.getReferenceById(entidad.getFinca().getId()));
+        }
     }
 }

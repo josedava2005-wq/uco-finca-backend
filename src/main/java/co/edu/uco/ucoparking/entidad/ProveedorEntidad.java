@@ -1,20 +1,56 @@
 package co.edu.uco.ucoparking.entidad;
 
 import java.util.UUID;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
+/**
+ * Entidad JPA que representa la tabla "proveedor" en SQL Server.
+ *
+ * Sin relaciones FK externas — entidad independiente.
+ *
+ * COLUMNAS SQL SERVER:
+ *   id               → uniqueidentifier (PK)
+ *   tipo_documento   → varchar
+ *   numero_documento → varchar
+ *   nombre           → varchar
+ *   correo           → varchar
+ *   telefono         → varchar
+ *   direccion        → varchar
+ */
+@Entity
+@Table(name = "proveedor")
 public class ProveedorEntidad {
 
+    @Id
+    @Column(name = "id", columnDefinition = "uniqueidentifier", updatable = false, nullable = false)
     private UUID id;
+
+    @Column(name = "tipo_documento", nullable = false, length = 50)
     private String tipoDocumento;
+
+    @Column(name = "numero_documento", nullable = false, length = 20)
     private String numeroDocumento;
+
+    @Column(name = "nombre", nullable = false, length = 200)
     private String nombre;
+
+    @Column(name = "correo", nullable = true, length = 200)
     private String correo;
+
+    @Column(name = "telefono", nullable = true, length = 20)
     private String telefono;
+
+    @Column(name = "direccion", nullable = true, length = 300)
     private String direccion;
 
     public ProveedorEntidad() {}
 
-    public ProveedorEntidad(final UUID id, final String tipoDocumento, final String numeroDocumento, final String nombre, final String correo, final String telefono, final String direccion) {
+    public ProveedorEntidad(final UUID id, final String tipoDocumento, final String numeroDocumento,
+                            final String nombre, final String correo, final String telefono,
+                            final String direccion) {
         this.id = id;
         this.tipoDocumento = tipoDocumento;
         this.numeroDocumento = numeroDocumento;

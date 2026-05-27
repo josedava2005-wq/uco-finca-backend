@@ -3,58 +3,69 @@ package co.edu.uco.ucoparking.datos.impl;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import co.edu.uco.ucoparking.datos.DepartamentoDatos;
 import co.edu.uco.ucoparking.datos.jpa.DepartamentoJpaRepository;
+import co.edu.uco.ucoparking.datos.jpa.PaisJpaRepository;
 import co.edu.uco.ucoparking.entidad.DepartamentoEntidad;
 
 /**
  * Implementación de DepartamentoDatos usando JPA / SQL Server.
  *
- * ANTES: usaba una List<DepartamentoEntidad> estática en memoria (datos volátiles).
- * AHORA: delega en DepartamentoJpaRepository que persiste en la tabla
- *        "departamento" de SQL Server.
+ * FIX FK (crear/modificar):
+ *   El DepartamentoEntidad recibido del assembler tiene PaisEntidad con solo
+ *   el ID seteado (shell transitorio). Hibernate lanzaría TransientPropertyValueException
+ *   al hacer persist() sobre ese shell.
  *
- * FLUJO:
- *   DepartamentoCasoDeUsoImpl → llama DepartamentoDatos (esta clase)
- *       → delega en DepartamentoJpaRepository
- *       → Hibernate genera SQL
- *       → SQL Server persiste el dato
+ *   Solución: usar paisJpaRepository.getReferenceById(id) que devuelve un proxy
+ *   JPA gestionado. El @Transactional asegura que el proxy y el save() corran
+ *   en la misma sesión de Hibernate.
  *
- * El resto de la arquitectura (CasoDeUso, Fachada, Controller) NO sabe que
- * internamente usamos JPA. Solo conoce la interfaz DepartamentoDatos.
+ * RELACIÓN:
+ *   Departamento → País (EAGER)
  */
 @Repository
 public class DepartamentoDatosImpl implements DepartamentoDatos {
 
-    // Spring inyecta automáticamente el JpaRepository generado por Spring Data
     private final DepartamentoJpaRepository jpaRepository;
+    private final PaisJpaRepository paisJpaRepository;
 
-    public DepartamentoDatosImpl(final DepartamentoJpaRepository jpaRepository) {
+    public DepartamentoDatosImpl(
+            final DepartamentoJpaRepository jpaRepository,
+            final PaisJpaRepository paisJpaRepository) {
         this.jpaRepository = jpaRepository;
+        this.paisJpaRepository = paisJpaRepository;
     }
 
     @Override
+    @Transactional
     public void crear(final DepartamentoEntidad entidad) {
-        // save() detecta que el ID no existe en BD → ejecuta INSERT
+        resolverFKs(entidad);
         jpaRepository.save(entidad);
     }
 
     @Override
     public List<DepartamentoEntidad> consultar(final DepartamentoEntidad filtro) {
-        // Por ahora: retorna todos los departamentos.
-        // En el futuro se puede filtrar por nombre, pais, etc.
         return jpaRepository.findAll();
     }
 
     @Override
+    @Transactional
     public void modificar(final DepartamentoEntidad entidad) {
-        // save() detecta que el ID ya existe en BD → ejecuta UPDATE
+        resolverFKs(entidad);
         jpaRepository.save(entidad);
     }
 
     @Override
+    @Transactional
     public void eliminar(final UUID id) {
-        // deleteById genera: DELETE FROM departamento WHERE id = ?
         jpaRepository.deleteById(id);
+    }
+
+    // Reemplaza los shells transitorios de FK con proxies JPA gestionados.
+    private void resolverFKs(final DepartamentoEntidad entidad) {
+        if (entidad.getPais() != null && entidad.getPais().getId() != null) {
+            entidad.setPais(paisJpaRepository.getReferenceById(entidad.getPais().getId()));
+        }
     }
 }

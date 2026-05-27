@@ -21,8 +21,13 @@ public final class FincaDTO {
     }
 
     public UUID getId() { return id; }
+    public void setId(final UUID id) { this.id = id; }
     public String getNombre() { return nombre; }
+    public void setNombre(final String nombre) { this.nombre = nombre; }
     public Double getHectareas() { return hectareas; }
+    public void setHectareas(final Double hectareas) { this.hectareas = hectareas; }
     public String getFechaRegistro() { return fechaRegistro; }
+    public void setFechaRegistro(final String fechaRegistro) { this.fechaRegistro = fechaRegistro; }
     public UUID getIdLugarFinca() { return idLugarFinca; }
+    public void setIdLugarFinca(final UUID idLugarFinca) { this.idLugarFinca = idLugarFinca; }
 }
